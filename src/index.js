@@ -22,6 +22,7 @@ export default class VueSocketIO {
      */
     install(Vue, connection, vuex){
         Vue.prototype.$socket = this.io;
+        console.log(this);
         Vue.prototype.$vueSocketIo = this;
         Vue.mixin(Mixin);
         Vue.prototype.$socketFn = (connection) => {
