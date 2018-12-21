@@ -13,29 +13,26 @@ export default class VueSocketIO {
      * @param debug
      */
     constructor({connection, vuex, debug}){
-
         Logger.debug = debug;
-        this.io = this.connect(connection);
-        this.emitter = new Emitter(vuex);
-        this.listener = new Listenler(this.io, this.emitter);
-
     }
 
     /**
      * Vuejs entrypoint
      * @param Vue
      */
-    install(Vue){
-
+    install(Vue, connection, vuex){
         Vue.prototype.$socket = this.io;
         Vue.prototype.$vueSocketIo = this;
         Vue.mixin(Mixin);
-
+        Vue.prototype.$socketFn = (connection) => {
+            this.io = this.connect(connection);
+            this.emitter = new Emitter(vuex);
+            this.listener = new Listenler(this.io, this.emitter);
+            Logger.info('Vue-Socket.io plugin enabled');
+        }
         Logger.info('Vue-Socket.io plugin enabled');
 
     }
-
-
     /**
      * registering socketio instance
      * @param connection
